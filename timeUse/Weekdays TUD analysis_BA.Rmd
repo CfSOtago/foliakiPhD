@@ -116,17 +116,24 @@ kableExtra::kable(head(newdata), caption = "Test merged long form data") %>%
 > BA: fix the time variable so it looks like and acts like HH:MM
 
 ```{r fixTime}
-newdata$rawTime <- hms::parse_hm(newdata$Time) # this will only be right for AM
-newdata$AM_PM <- stringr::word(newdata$Time, 2) # get the second word of 'Time' which will be AM or PM
+#newdata$rawTime <- hms::parse_hm(newdata$Time) # this will only be right for AM
+#newdata$AM_PM <- stringr::word(newdata$Time, 2) # get the second word of 'Time' which will be AM or PM
+
+# better solution
+# https://stackoverflow.com/questions/7883806/parse-timestamp-with-a-m-p-m
+# this will make it today's date and the current time zone by default
+newdata$rawTime <- as.POSIXct(newdata$Time, format="%l:%M %p")
+
+# Lesson #1: always enter times as 24 hour clock: HH:MM !!
 
 # Now use that to add 12 hours to rawTime whenit is actually PM
-newdata$fixedTime <- ifelse(newdata$AM_PM =="PM", # if PM
-                            newdata$rawTime + (12 * 60 * 60), #  add 12 hours
-                            newdata$rawTime # otherwise don't
-                            ) 
-newdata$fixedHMS <- hms::as_hms(newdata$fixedTime) # make sure it is in H:M:S format
+# newdata$fixedTime <- ifelse(newdata$AM_PM =="PM", # if PM
+#                             newdata$rawTime + (12 * 60 * 60), #  add 12 hours
+#                             newdata$rawTime # otherwise don't
+#                             ) 
+newdata$fixedHMS <- hms::as_hms(newdata$rawTime) # make sure it is in H:M:S format
 
-t <- table(newdata$Time, newdata$AM_PM)
+t <- table(newdata$Time, newdata$rawTime)
 kableExtra::kable(t, caption = "Test time coding") %>%
   kable_styling()
 ```
@@ -476,12 +483,18 @@ ggplot2::ggplot(plotDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
 
 # All weekdays plotted using facets
 
-Figure \@ref(fig:allWeekdays) shows counts for all days. We can see a few days are unkown. Also we have higher counts on Mondays. A lot of people are 'out' late at night?
+Figure \@ref(fig:allWeekdays) shows counts for all days. We can see a few days are unknown. Also we have higher counts on Mondays.
 
 ```{r allWeekdays, fig.cap="All days"}
 # use the all days table and the same coding method but across all days
 
 allDaysDT <- data.table::as.data.table(newdata)
+
+allDaysDT[, dayF := factor(Day,
+                        levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday") # sets the order for the plot
+                        )
+       ]
+
 allDaysDT[, ba_act := ifelse(Activity %in% c("Cooking", "Breakfast", "Dinner", "Light meal"), 
                             "Cooking", # <- new code
                             NA)
@@ -514,10 +527,28 @@ allDaysDT[, ba_act := ifelse(Activity %in% c("Public transport", "Driving", "Wal
 
 # make a summary table for the plot
 plotDT <- allDaysDT[!is.na(ba_act), # excludes all NAs - see table to check coding 
-                   .(count = .N), keyby = .(fixedHMS, ba_act, Day)]
+                   .(count = .N), 
+                   keyby = .(fixedHMS, ba_act, dayF)] # use new day factor
+
+
 
 ggplot2::ggplot(plotDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
   geom_col() +
-  facet_grid(Day ~ .) +
+  facet_grid(dayF ~ .) +
   scale_fill_discrete(name="Activity (filtered)")
+
+t <- with(allDaysDT[!is.na(ba_act)], # select the ones we re-coded only
+          table(ba_act, dayF))
+
+kableExtra::kable(t, caption = "Number of recorded coded acts by day (non recoded actas e.g. sleeping ignored)") %>%
+  kable_styling()
+
+t <- allDaysDT[, .(nRespondents = uniqueN(`Household ID`)), keyby = .(dayF)]
+
+kableExtra::kable(t, caption = "Number of unique respondents by day (all acts)") %>%
+  kable_styling()
 ```
+
+There are a lot of Mondays in this data...
+
+# Conclusions
