@@ -258,7 +258,15 @@ tableCooking <- monday %>%
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", "Breakfast", "Dinner", "Light meal")) %>% 
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>% 
   group_by(fixedHMS) %>% 
   tally
   
@@ -293,7 +301,18 @@ tableTidyup <- monday %>%
   filter(Activity != "Sleeping") %>% 
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Tidy up", "Laundry", "Showering", "Getting dressed", "Ironing", "Feeding animals", "Turning off appliances/Lights")) %>% 
+  filter(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals")) %>% 
   group_by(fixedHMS) %>% 
   tally
   
@@ -328,7 +347,22 @@ tableleisure <- monday %>%
   filter(Activity != "Sleeping") %>% 
   filter(Activity != "Rest") %>% 
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("TV", "Homework", "Laptop/PC", "Radio", "Mobile phones", "Reading", "Family time")) %>% 
+  filter(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)")) %>% 
   group_by(fixedHMS) %>% 
   tally
   
@@ -360,7 +394,18 @@ tableAway <- monday %>%
   select(fixedHMS, Activity) %>% 
   filter(Activity != "Sleeping") %>% 
   filter(Activity != "Rest") %>% 
-  filter(Activity %in% c("Farm", "Relatives", "Work", "Fitness", "Kava", "Church", "Sports", "Going out"))%>% 
+  filter(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"))%>% 
   group_by(fixedHMS) %>% 
   tally
   
@@ -396,7 +441,24 @@ tableTransport <- monday %>%
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Public transport", "Driving", "Walking")) %>% 
+  filter(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)")) %>% 
   group_by(fixedHMS) %>% 
   tally
   
@@ -442,27 +504,89 @@ library(gridBase)
 # I would use data.table for this, not because it is the best way but because I know how to use it!
 library(data.table)
 mondayDT <- data.table::as.data.table(monday)
-mondayDT[, ba_act := ifelse(Activity %in% c("Cooking", "Breakfast", "Dinner", "Light meal"), 
+mondayDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack"), 
                             "Cooking", # <- new code
                             NA)
          ]
 
-mondayDT[, ba_act := ifelse(Activity %in% c("Tidy up", "Laundry", "Showering", "Getting dressed", "Ironing", "Feeding animals", "Turning off appliances/Lights"),
+mondayDT[, ba_act := ifelse(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals"),
                             "Tidy up", 
                             ba_act)
          ]
 
-mondayDT[, ba_act := ifelse(Activity %in% c("TV", "Homework", "Laptop/PC", "Radio", "Mobile phones", "Reading", "Family time"), 
+mondayDT[, ba_act := ifelse(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)"), 
                             "Leisure", 
                             ba_act)
          ]
 
-mondayDT[, ba_act := ifelse(Activity %in% c("Farm", "Relatives", "Work", "Fitness", "Kava", "Church", "Sports", "Going out"), 
+mondayDT[, ba_act := ifelse(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"), 
                             "Away", 
                             ba_act)
          ]
 
-mondayDT[, ba_act := ifelse(Activity %in% c("Public transport", "Driving", "Walking"), 
+mondayDT[, ba_act := ifelse(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)"), 
                             "Transport", 
                             ba_act)
          ]
@@ -495,27 +619,89 @@ allDaysDT[, dayF := factor(Day,
                         )
        ]
 
-allDaysDT[, ba_act := ifelse(Activity %in% c("Cooking", "Breakfast", "Dinner", "Light meal"), 
+allDaysDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack"), 
                             "Cooking", # <- new code
                             NA)
          ]
 
-allDaysDT[, ba_act := ifelse(Activity %in% c("Tidy up", "Laundry", "Showering", "Getting dressed", "Ironing", "Feeding animals", "Turning off appliances/Lights"),
+allDaysDT[, ba_act := ifelse(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals"),
                             "Tidy up", 
                             ba_act)
          ]
 
-allDaysDT[, ba_act := ifelse(Activity %in% c("TV", "Homework", "Laptop/PC", "Radio", "Mobile phones", "Reading", "Family time"), 
+allDaysDT[, ba_act := ifelse(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)"), 
                             "Leisure", 
                             ba_act)
          ]
 
-allDaysDT[, ba_act := ifelse(Activity %in% c("Farm", "Relatives", "Work", "Fitness", "Kava", "Church", "Sports", "Going out"), 
+allDaysDT[, ba_act := ifelse(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"), 
                             "Away", 
                             ba_act)
          ]
 
-allDaysDT[, ba_act := ifelse(Activity %in% c("Public transport", "Driving", "Walking"), 
+allDaysDT[, ba_act := ifelse(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)"), 
                             "Transport", 
                             ba_act)
          ]
