@@ -30,7 +30,7 @@ dataF <- path.expand(paste0(dPath, "TUD Weekdays.csv"))
   
 ```
 
-#Time Use Diary
+# Time Use Diary
 
 
 Importing Weekends dataframe
@@ -63,7 +63,6 @@ longweekdays <- weekdays %>%
 head(longweekdays)
 
 ```
-
 
 Sorting the TUD dataframe, Firstly, as you can see previously some respondents do not have a secondary activity (i.e NA). Secondly, the data is sorted by time. I think it would be easier to sorted by Household ID. So here i am sorting the data based on ID number
 
@@ -736,5 +735,17 @@ kableExtra::kable(t, caption = "Number of unique respondents by day (all acts)")
 ```
 
 There are a lot of Mondays in this data...
+
+How many are there per village?
+
+```{r villageDays}
+
+dt <- allDaysDT[, .(n = uniqueN(`Household ID`)), 
+                   keyby = .(Village)]
+
+
+
+kableExtra::kable(dt, caption = "Number of respondents by village")
+```
 
 # Conclusions
