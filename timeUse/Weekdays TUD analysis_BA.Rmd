@@ -96,11 +96,11 @@ Im trying to sort the date but it comes back N/A
 nrow(sortweekdays)
 
 #create a new dataframe "newdata" for the primary activity only (all odd rows)
-newdata <- sortweekdays[seq(1,8351,2),]
+newdata <- sortweekdays[seq(1,8543,2),]
 head(newdata)
 
 #create a new datagame "newdata1" for the secondary activity (oall even rows)
-newdata1 <- sortweekdays[seq(2,8352,2),]
+newdata1 <- sortweekdays[seq(2,8544,2),]
 head(newdata1)
 
 #since i have separated my two acitvities, i need to merge them into one dataframe
@@ -169,13 +169,14 @@ head(friday)
 ```
 
 
-# Monday
+# Frequency of Activity per weekday
 
 So im trying to sort out the coding for Monday so i can copy it for the rest of the weekdays. I've did a frequency and proportion of activities for Monday.
 
 ```{r testMonday}
 
 
+#Monday 
 
 #frequency of Activities
 freqA <- table(monday$Activity, exclude=NULL)
@@ -206,18 +207,200 @@ tableMonday <- kable(tableMon)%>%
 
 tableMonday
 
+
+#Tueday
+
+#frequency of Activities
+freqTue <- table(tuesday$Activity, exclude=NULL)
+freqTue
+dim(freqTue)
+
+#proportion of Activities
+propTue <- prop.table(freqTue)*100
+propTue <- round(propTue, digits=2)
+propTue
+
+dim(propTue)
+
+#creating table with binding
+tableTue <- cbind(freqTue, propTue)
+tableTue <- cbind(Gender = rownames(tableTue), tableTue)
+rownames(tableTue) <- NULL
+tableTue
+
+#rename column names
+colnames(tableTue)[colnames(tableTue) == "freqTue"] <- "Frequency"
+colnames(tableTue)[colnames(tableTue) == "propTue"] <- "Proportion (%)"
+tableTue
+
+#using kable extra to create better table format
+tableTuesday <- kable(tableTue)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableTuesday
+
+#Wednesday
+#frequency of Activities
+freqWed <- table(wednesday$Activity, exclude=NULL)
+freqWed
+dim(freqWed)
+
+#proportion of Activities
+propWed <- prop.table(freqWed)*100
+propWed <- round(propWed, digits=2)
+propWed
+
+dim(propWed)
+
+#creating table with binding
+tableWed <- cbind(freqWed, propWed)
+tableWed <- cbind(Gender = rownames(tableWed), tableWed)
+rownames(tableWed) <- NULL
+tableWed
+
+#rename column names
+colnames(tableWed)[colnames(tableWed) == "freqWed"] <- "Frequency"
+colnames(tableWed)[colnames(tableWed) == "propWed"] <- "Proportion (%)"
+tableWed
+
+#using kable extra to create better table format
+tableWednesday <- kable(tableWed)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableWednesday
+
+#Thursday
+#frequency of Activities
+freqThu <- table(thursday$Activity, exclude=NULL)
+freqThu
+dim(freqThu)
+
+#proportion of Activities
+propThu <- prop.table(freqThu)*100
+propThu <- round(propThu, digits=2)
+propThu
+
+dim(propThu)
+
+#creating table with binding
+tableThu <- cbind(freqThu, propThu)
+tableThu <- cbind(Gender = rownames(tableThu), tableThu)
+rownames(tableThu) <- NULL
+tableThu
+
+#rename column names
+colnames(tableThu)[colnames(tableThu) == "freqThu"] <- "Frequency"
+colnames(tableThu)[colnames(tableThu) == "propThu"] <- "Proportion (%)"
+tableThu
+
+#using kable extra to create better table format
+tableThursday <- kable(tableThu)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableThursday
+
+#Friday
+#frequency of Activities
+freqFri <- table(friday$Activity, exclude=NULL)
+freqFri
+dim(freqFri)
+
+#proportion of Activities
+propFri <- prop.table(freqFri)*100
+propFri <- round(propFri, digits=2)
+propFri
+
+dim(propFri)
+
+#creating table with binding
+tableFri <- cbind(freqFri, propFri)
+tableFri <- cbind(Gender = rownames(tableFri), tableFri)
+rownames(tableFri) <- NULL
+tableFri
+
+#rename column names
+colnames(tableFri)[colnames(tableFri) == "freqFri"] <- "Frequency"
+colnames(tableFri)[colnames(tableFri) == "propFri"] <- "Proportion (%)"
+tableFri
+
+#using kable extra to create better table format
+tableFriday <- kable(tableFri)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableFriday
+
+#weekdays
+#frequency of Activities
+freqwkd <- table(newdata$Activity, exclude=NULL)
+freqwkd
+dim(freqwkd)
+
+#proportion of Activities
+propwkd <- prop.table(freqwkd)*100
+propwkd <- round(propwkd, digits=2)
+propwkd
+
+dim(propwkd)
+
+#creating table with binding
+tablewkd <- cbind(freqwkd, propwkd)
+tablewkd <- cbind(Gender = rownames(tablewkd), tablewkd)
+rownames(tablewkd) <- NULL
+tablewkd
+
+#rename column names
+colnames(tablewkd)[colnames(tablewkd) == "freqwkd"] <- "Frequency"
+colnames(tablewkd)[colnames(tableTue) == "propwkd"] <- "Proportion (%)"
+tablewkd
+
+#using kable extra to create better table format
+tableWeekdays <- kable(tablewkd)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableWeekdays
 ```
 
 
-## Monday TUD
+
+## Weekdays Activities TUD
 Im trying to see the count for all the activities in the TUD
 
 ```{r mondayGroupActs}
+#Monday
 groupbymonAct <- monday %>%
   dplyr::group_by(Activity) %>%
   dplyr::summarize(count = n())
 groupbymonAct
 
+#Tuesday
+groupbytueAct <- tuesday %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbytueAct
+
+#Wednesday
+groupbywedAct <- wednesday %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbywedAct
+
+#Thursday
+groupbythuAct <- thursday %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbythuAct
+
+#Friday
+groupbyfriAct <- friday %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbyfriAct
+
+#Weekdays
+groupbyWkdAct <- newdata %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbyWkdAct
 ```
 
 Im am trying to remove sleeping, rest, going to work from the data so that i can only focus on the rest of the acitivities.
@@ -225,6 +408,7 @@ Im am trying to remove sleeping, rest, going to work from the data so that i can
 The issue i am facing as the time is not sorted in accending order. Can you help with the coding
 
 > yep - see what I did :-)
+
 
 ```{r mondayFilter}
 tableAll <- monday %>%
@@ -245,13 +429,13 @@ ggplot2::ggplot(tableAll, aes(x = fixedHMS, y = n)) +
   geom_col()
 ```
 
-## Monday Cooking
+## Cooking
 
 Here im am trying to look at anything related to preparing and eating a meal. 
 
 ```{r mondayCook}
 # creating dataframe for all cooking
-
+#Monday
 tableCooking <- monday %>%
   select(fixedHMS, Activity) %>% 
   filter(Activity != "Sleeping") %>%
@@ -272,8 +456,8 @@ tableCooking <- monday %>%
   
 tableCooking
 
-b <- ggplot(tableCooking, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
-  ggtitle("(b) Cooking") +
+MonCook <- ggplot(tableCooking, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Monday Cooking") +
   xlab("Time ") +
   ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
         axis.title.x = element_text(color="black", size=10, face="bold"),
@@ -285,7 +469,193 @@ b <- ggplot(tableCooking, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity"
         scale_x_date(labels = date_format("%I:%M %p"))
 )
 
-b
+MonCook
+
+#Tuesday
+
+tableCookingTue <- tuesday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingTue
+
+TueCook <- ggplot(tableCookingTue, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Tuesday Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+TueCook
+
+#Wednesday
+
+tableCookingWed <- wednesday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingWed
+
+WedCook <- ggplot(tableCookingWed, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Wednesday Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+WedCook
+
+#Thursday
+
+tableCookingThu <- thursday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingThu
+
+ThuCook <- ggplot(tableCookingThu, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Thursday Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+ThuCook
+
+#Friday
+
+
+tableCookingFri <- friday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingFri
+
+FriCook <- ggplot(tableCookingFri, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Friday Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+FriCook
+
+#Weekdays
+
+tableCookingWkd <- newdata %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingWkd
+
+WkdCook <- ggplot(tableCookingWkd, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Weekdays Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+WkdCook
 
 ```
 
