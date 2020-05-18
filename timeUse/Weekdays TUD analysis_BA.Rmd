@@ -2033,7 +2033,16 @@ kableExtra::kable(head(weekenddata), caption = "Test merged long form data") %>%
 ```
 
 
+```{r fixTime}
 
+weekenddata$rawTime <- as.POSIXct(weekenddata$Time, format="%l:%M %p")
+
+weekenddata$fixedHMS <- hms::as_hms(weekenddata$rawTime) # make sure it is in H:M:S format
+
+weekendt <- table(weekenddata$Time, weekenddata$rawTime)
+kableExtra::kable(weekendt, caption = "Test time coding") %>%
+  kable_styling()
+```
 
 
 
