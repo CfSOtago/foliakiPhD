@@ -2476,8 +2476,258 @@ WeekendTidy
 
 ```
 
+```{r weekendLeisure}
+# creating dataframe for all leisure
 
+#Saturday
+saturdayleisure <- saturday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>% 
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+saturdayleisure
 
+Saturdayleisure <- ggplot(saturdayleisure, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="violet", fill="violet") +
+  ggtitle("Saturday Leisure") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+Saturdayleisure
+
+#Sunday
+sundayleisure <- sunday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>% 
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+sundayleisure
+
+Sundayleisure <- ggplot(sundayleisure, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="violet", fill="violet") +
+  ggtitle("Sunday Leisure") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+Sundayleisure
+
+#Weekend
+weekendleisure <- weekenddata %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>% 
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+weekendleisure
+
+Weekendleisure <- ggplot(weekendleisure, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="violet", fill="violet") +
+  ggtitle("Weekend Leisure") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+Weekendleisure
+
+```
+
+```{r weekendAway}
+# creating dataframe for Away from Home
+
+#Saturday
+satAway <- saturday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>% 
+  filter(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"))%>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+satAway
+
+SaturdayAwayHome <- ggplot(satAway, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="orange", fill="orange") +
+  ggtitle("Saturday Away From Home") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SaturdayAwayHome
+
+#Sunday
+sunAway <- sunday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>% 
+  filter(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"))%>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+sunAway
+
+SundayAwayHome <- ggplot(sunAway, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="orange", fill="orange") +
+  ggtitle("Sunday Away From Home") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SundayAwayHome
+
+#Weekday
+weekendAway <- weekenddata%>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>% 
+  filter(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"))%>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+weekendAway
+
+WeekendAwayHome <- ggplot(weekendAway, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="orange", fill="orange") +
+  ggtitle("Weekend Away From Home") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+WeekendAwayHome
+
+```
 
 
 
