@@ -2044,5 +2044,18 @@ kableExtra::kable(weekendt, caption = "Test time coding") %>%
   kable_styling()
 ```
 
+```{r createWeekendDataFrames}
 
+#filter weekend dataframe by date using the dplyr
+
+#creating a new dataframe "Saturday"
+saturday <- dplyr::filter(weekenddata, Day == "Saturday")
+head(saturday)
+
+#creating a new dataframe "Sunday"
+sunday <- dplyr::filter(weekenddata, Day == "Sunday")
+head(sunday)
+
+
+```
 
