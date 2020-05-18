@@ -1966,4 +1966,35 @@ Ben, so far with the graphs not convinced its good enough, how can i use "propor
 # Conclusions
 
 
+#Weekend
+
+```{r setup}
+
+# parameters ----
+gPath <- "/Volumes/hum-csafe/Research Projects/FoliakiPhD/tudData/" # edit for your set up
+datag <- path.expand(paste0(gPath, "TUD Weekend 050520.csv"))
+  
+```
+
+
+```{r loadData}
+
+# read in my dataframe
+weekend <- read.csv(datag, na.strings=c(""), check.names = FALSE, header = TRUE, as.is=TRUE)
+
+head(weekend)
+
+
+```
+
+
+```{r makeLong}
+
+longweekend <- weekend %>%
+  gather(Time, Activity, 4:51)
+
+head(longweekend)
+
+```
+
 
