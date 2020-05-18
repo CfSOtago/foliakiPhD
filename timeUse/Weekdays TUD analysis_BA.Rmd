@@ -2730,4 +2730,600 @@ WeekendAwayHome
 ```
 
 
+```{r WeekendTransport}
+# creating dataframe for transportation
+
+# Saturday
+satTransport <- saturday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+satTransport
+
+#ploting Bar graph
+
+SaturdayTransport <- ggplot(satTransport, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="purple", fill="purple") +
+  ggtitle("Saturday Travelling") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SaturdayTransport
+
+# Sunday
+sunTransport <- sunday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+sunTransport
+
+#ploting Bar graph
+
+SundayTransport <- ggplot(sunTransport, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="purple", fill="purple") +
+  ggtitle("Sunday Travelling") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SundayTransport
+
+# Weekend
+weekendTransport <- weekenddata %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+weekendTransport
+
+#ploting Bar graph
+
+WeekendTravelling <- ggplot(weekendTransport, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="purple", fill="purple") +
+  ggtitle("Weekend Travelling") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+WeekendTravelling
+```
+
+
+
+```{r onePlot}
+# I would use data.table for this, not because it is the best way but because I know how to use it!
+
+#Saturday 
+
+library(data.table)
+saturdayDT <- data.table::as.data.table(saturday)
+saturdayDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner",
+                         "baking",
+                         "Light meal/snack"), 
+                            "Cooking",# <- new code
+                           NA)
+         ]
+
+saturdayDT[, ba_act := ifelse(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals"),
+                            "Tidy up", 
+                            ba_act)
+         ]
+
+saturdayDT[, ba_act := ifelse(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)"), 
+                            "Leisure", 
+                            ba_act)
+         ]
+
+saturdayDT[, ba_act := ifelse(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"), 
+                            "Away", 
+                            ba_act)
+         ]
+
+saturdayDT[, ba_act := ifelse(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)"), 
+                            "Transport", 
+                            ba_act)
+         ]
+
+satoneplot <- table(saturdayDT$Activity, saturdayDT$ba_act, useNA = "always")
+
+kableExtra::kable(satoneplot, caption = "Saturday activity coding") %>%
+  kable_styling()
+
+# make a summary table for the plot
+plotsatDT <- saturdayDT[!is.na(ba_act), # excludes all NAs - see table to check coding 
+                   .(count = .N), keyby = .(fixedHMS, ba_act)]
+
+ggplot2::ggplot(plotsatDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
+  geom_col() +
+  scale_fill_discrete(name="Activity (filtered)")
+
+#Sunday 
+
+sundayDT <- data.table::as.data.table(sunday)
+sundayDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner",
+                         "baking",
+                         "Light meal/snack"), 
+                            "Cooking",# <- new code
+                           NA)
+         ]
+
+sundayDT[, ba_act := ifelse(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals"),
+                            "Tidy up", 
+                            ba_act)
+         ]
+
+sundayDT[, ba_act := ifelse(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)"), 
+                            "Leisure", 
+                            ba_act)
+         ]
+
+sundayDT[, ba_act := ifelse(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"), 
+                            "Away", 
+                            ba_act)
+         ]
+
+sundayDT[, ba_act := ifelse(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)"), 
+                            "Transport", 
+                            ba_act)
+         ]
+
+sunoneplot <- table(sundayDT$Activity, sundayDT$ba_act, useNA = "always")
+
+kableExtra::kable(sunoneplot, caption = "Sunday Test activity coding") %>%
+  kable_styling()
+
+# make a summary table for the plot
+plotsunDT <- sundayDT[!is.na(ba_act), # excludes all NAs - see table to check coding 
+                   .(count = .N), keyby = .(fixedHMS, ba_act)]
+
+ggplot2::ggplot(plotsunDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
+  geom_col() +
+  scale_fill_discrete(name="Activity (filtered)")
+
+#Weekend 
+
+weekendDT <- data.table::as.data.table(weekenddata)
+weekendDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner",
+                         "baking",
+                         "Light meal/snack"), 
+                            "Cooking",# <- new code
+                           NA)
+         ]
+
+weekendDT[, ba_act := ifelse(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals"),
+                            "Tidy up", 
+                            ba_act)
+         ]
+
+weekendDT[, ba_act := ifelse(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)"), 
+                            "Leisure", 
+                            ba_act)
+         ]
+
+weekendDT[, ba_act := ifelse(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"), 
+                            "Away", 
+                            ba_act)
+         ]
+
+weekendDT[, ba_act := ifelse(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)"), 
+                            "Transport", 
+                            ba_act)
+         ]
+
+weekendoneplot <- table(weekendDT$Activity, weekendDT$ba_act, useNA = "always")
+
+kableExtra::kable(weekendoneplot, caption = "Weekd activity coding") %>%
+  kable_styling()
+
+# make a summary table for the plot
+plotsweekendDT <- weekendDT[!is.na(ba_act), # excludes all NAs - see table to check coding 
+                   .(count = .N), keyby = .(fixedHMS, ba_act)]
+
+ggplot2::ggplot(plotsweekendDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
+  geom_col() +
+  scale_fill_discrete(name="Activity (filtered)")
+
+```
+
+
+```{r allWeekends, fig.cap="All days"}
+# use the all days table and the same coding method but across all days
+
+allweekenddaysDT <- data.table::as.data.table(weekenddata)
+
+allweekenddaysDT[, dayF := factor(Day,
+                        levels = c("Saturday", "Sunday") # sets the order for the plot
+                        )
+       ]
+
+allweekenddaysDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner",
+                         "Baking",
+                         "Light meal/snack"), 
+                            "Cooking", # <- new code
+                            NA)
+         ]
+
+allweekenddaysDT[, ba_act := ifelse(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals"),
+                            "Tidy up", 
+                            ba_act)
+         ]
+
+allweekenddaysDT[, ba_act := ifelse(Activity %in% c("Babysitting", 
+                         "Charging mobile devices", 
+                         "Family devotion",
+                         "Exercise (Jog, walk)",
+                         "Family time (chatting, games etc)",
+                         "Homework (kids)",
+                         "Kids bedtime",
+                         "Listen to music/radio",
+                         "Mobile devices (movies)",
+                         "Mobile devices (games)",
+                         "Mobile devices (work)",
+                         "Mobile devices (browsing, social media)",
+                         "Scripture study",
+                         "Studying", 
+                         "Reading",
+                         "Watching movies (TV)"), 
+                            "Leisure", 
+                            ba_act)
+         ]
+
+allweekenddaysDT[, ba_act := ifelse(Activity %in% c("Farm", 
+                         "Relatives", 
+                         "Work", 
+                         "Kava", 
+                         "Church", 
+                         "Church (social activities)", 
+                         "Church (choir practice)", 
+                         "Exercise (Jog, walk)", 
+                         "Gym",
+                         "Sports",
+                         "School", 
+                         "Going out"), 
+                            "Away", 
+                            ba_act)
+         ]
+
+allweekenddaysDT[, ba_act := ifelse(Activity %in% c("Driving (church)", 
+                         "Driving (drop kids)", 
+                         "Driving (drop relatives)",
+                         "Driving (farm)", 
+                         "Driving (free time)", 
+                         "Driving (gym)", 
+                         "Driving (home)", 
+                         "Driving (Kava)", 
+                         "Driving (order delivery)", 
+                         "Driving (pick up kids)", 
+                         "Driving (visiting relatives)", 
+                         "Driving (work)", 
+                         "Public transport (home)", 
+                         "Public transport (work)", 
+                         "Public transport (school)", 
+                         "Walking (home)",  
+                         "Walking (work)", 
+                         "Walking (Kava)"), 
+                            "Transport", 
+                            ba_act)
+         ]
+
+# t <- table(allDaysDT$Activity, allDaysDT$ba_act, useNA = "always")
+# 
+# kableExtra::kable(t, caption = "Test activity coding (all days)") %>%
+#   kable_styling()
+
+# make a summary table for the plot
+plotweekendtDT <- allweekenddaysDT[!is.na(ba_act), # excludes all NAs - see table to check coding 
+                   .(count = .N), 
+                   keyby = .(fixedHMS, ba_act, dayF)] # use new day factor
+
+
+
+ggplot2::ggplot(plotweekendtDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
+  geom_col() +
+  facet_grid(dayF ~ .) +
+  scale_fill_discrete(name="Activity (filtered)")
+
+weekendt <- with(allweekenddaysDT[!is.na(ba_act)], # select the ones we re-coded only
+          table(ba_act, dayF))
+
+kableExtra::kable(weekendt, caption = "Number of recorded coded acts by day (non recoded actas e.g. sleeping ignored)") %>%
+  kable_styling()
+
+weekendt <- allweekenddaysDT[, .(nRespondents = uniqueN(`Household ID`)), keyby = .(dayF)]
+
+kableExtra::kable(weekendt, caption = "Number of unique respondents by day (all acts)") %>%
+  kable_styling()
+```
+
+
+
+
 
