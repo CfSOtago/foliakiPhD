@@ -2238,6 +2238,119 @@ ggplot2::ggplot(tableWkendnosleep, aes(x = fixedHMS, y = n)) +
 
 ```
 
+```{r WeekendCook}
+# creating dataframe for all cooking
+#Saturday
+tableCookingSat <- saturday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack",
+                         "Baking")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingSat
+
+SatCook <- ggplot(tableCookingSat, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Saturday Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SatCook
+
+#Sunday
+tableCookingSun <- sunday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack",
+                         "Baking")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingSun
+
+SunCook <- ggplot(tableCookingSun, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Sunday Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SunCook
+
+#Weekend
+tableCookingWeekend <- weekenddata %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack",
+                         "Baking")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+tableCookingWeekend
+
+WeekendCook <- ggplot(tableCookingWeekend, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Weekend Cooking") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+WeekendCook
+```
 
 
 
