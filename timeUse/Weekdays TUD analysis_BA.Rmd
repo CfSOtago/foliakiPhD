@@ -2122,4 +2122,126 @@ tableSunday <- kable(tableSun)%>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 
 tableSunday
+
+#Weekend
+
+#frequency of Activities
+freqWeekend <- table(weekenddata$Activity, exclude=NULL)
+freqWeekend
+dim(freqWeekend)
+
+#proportion of Activities
+propWeekend <- prop.table(freqWeekend)*100
+propWeekend <- round(propWeekend, digits=2)
+propWeekend
+
+dim(propWeekend)
+
+#creating table with binding
+tableWeekend <- cbind(freqWeekend, propWeekend)
+tableWeekend <- cbind(Gender = rownames(tableWeekend), tableWeekend)
+rownames(tableWeekend) <- NULL
+tableWeekend
+
+#rename column names
+colnames(tableWeekend)[colnames(tableWeekend) == "freqWeekend"] <- "Frequency"
+colnames(tableWeekend)[colnames(tableWeekend) == "propWeekend"] <- "Proportion (%)"
+tableWeekend
+
+#using kable extra to create better table format
+tableWeekend <- kable(tableWeekend)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableWeekend
+
+
 ```
+
+
+```{r weekendGroupActs}
+#Saturday
+groupbysatAct <- saturday %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbysatAct
+
+#Sunday
+groupbysunAct <- sunday %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbysunAct
+
+#weekend
+groupbyweekendAct <- weekenddata %>%
+  dplyr::group_by(Activity) %>%
+  dplyr::summarize(count = n())
+groupbyweekendAct
+
+```
+
+
+```{r WeekendNoSleepFilter}
+
+#Satruday
+tableSatnosleep <- saturday %>%
+  #select(Time, Activity) %>% 
+  select(fixedHMS, Activity) %>% # use the new time variable
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  #group_by(Time) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+
+kableExtra::kable(tableSatnosleep, caption = "Saturday test (no sleep/rest/work)") %>%
+  kable_styling()
+
+# plot
+ggplot2::ggplot(tableSatnosleep, aes(x = fixedHMS, y = n)) +
+  geom_col()
+
+#Sunday
+tableSunnosleep <- sunday %>%
+  #select(Time, Activity) %>% 
+  select(fixedHMS, Activity) %>% # use the new time variable
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  #group_by(Time) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+
+kableExtra::kable(tableSunnosleep, caption = "Sunday test (no sleep/rest/work)") %>%
+  kable_styling()
+
+# plot
+ggplot2::ggplot(tableSunnosleep, aes(x = fixedHMS, y = n)) +
+  geom_col()
+
+#Weekdays
+tableWkendnosleep <- weekenddata %>%
+  #select(Time, Activity) %>% 
+  select(fixedHMS, Activity) %>% # use the new time variable
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  #group_by(Time) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+
+kableExtra::kable(tableWkendnosleep, caption = "Weekend test (no sleep/rest/work)") %>%
+  kable_styling()
+
+# plot
+ggplot2::ggplot(tableWkendnosleep, aes(x = fixedHMS, y = n)) +
+  geom_col()
+
+```
+
+
+
+
+
+
+
+
