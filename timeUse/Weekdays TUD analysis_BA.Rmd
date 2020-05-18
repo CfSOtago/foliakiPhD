@@ -2353,6 +2353,129 @@ WeekendCook
 ```
 
 
+```{r WeekendTidyUp}
+# creating dataframe for all cleaning up
+
+#Saturday
+saturdayTidyup <- saturday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+saturdayTidyup
+
+SaturdayTidy <- ggplot(saturdayTidyup, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="red", fill="red") +
+  ggtitle("Saturday Tidy up") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SaturdayTidy
+
+
+#Sunday
+sundayTidyup <- sunday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+sundayTidyup
+
+SundayTidy <- ggplot(sundayTidyup, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="red", fill="red") +
+  ggtitle("Sunday Tidy up") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+SundayTidy
+
+#Weekend
+weekendTidyup <- weekenddata %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>% 
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Tidy up", 
+                         "Laundry", 
+                         "Showering", 
+                         "Showering (kids)", 
+                         "Gardening", 
+                         "Getting dressed", 
+                         "Getting dressed (kids)",
+                         "Prepare kids bag for school",
+                         "Turning off applicances/Lights", 
+                         "Turning on appliances/lights", 
+                         "Ironing", 
+                         "Feeding animals")) %>% 
+  group_by(fixedHMS) %>% 
+  tally
+  
+  
+weekendTidyup
+
+WeekendTidy <- ggplot(weekendTidyup, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="red", fill="red") +
+  ggtitle("Weekend Tidy up") +
+  xlab("Time ") +
+  ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+WeekendTidy
+
+```
+
 
 
 
