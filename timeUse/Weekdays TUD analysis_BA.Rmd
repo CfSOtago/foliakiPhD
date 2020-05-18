@@ -659,6 +659,7 @@ WkdCook
 
 ```
 
+
 ## Weekdays Tidy up
 
 similar to the above but for tidy up/cleaning up
@@ -1956,5 +1957,11 @@ dt <- allDaysDT[, .(n = uniqueN(`Household ID`)),
 
 kableExtra::kable(dt, caption = "Number of respondents by village")
 ```
+
+
+Ben, so far with the graphs not convinced its good enough, how can i use "proportion" instead of "count" in the Y axis? Given the uneven distribution of respondents per day
+
+
+
 
 # Conclusions
