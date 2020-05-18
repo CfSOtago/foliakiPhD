@@ -2008,3 +2008,32 @@ head(sortweekend)
 
 names(sortweekend)
 ```
+
+```{r rearrangeActs}
+# Since both the first and second activiies are in one column, i need to separate them into two columns
+
+#call the number of row in my dataframe for the maximum row for my sequence function
+nrow(sortweekend)
+
+#create a new dataframe "newdata" for the primary activity only (all odd rows)
+weekenddata <- sortweekend[seq(1,8543,2),]
+head(weekenddata)
+
+#create a new datagame "newdata1" for the secondary activity (oall even rows)
+weekenddata1 <- sortweekend[seq(2,8544,2),]
+head(weekenddata1)
+
+#since i have separated my two acitvities, i need to merge them into one dataframe
+weekenddata$Activity2 <- weekenddata1$Activity
+
+kableExtra::kable(head(weekenddata), caption = "Test merged long form data") %>%
+  kable_styling()
+
+
+```
+
+
+
+
+
+
