@@ -2059,3 +2059,67 @@ head(sunday)
 
 ```
 
+```{r testWeekendFrequencyProportion}
+
+#Saturday 
+
+#frequency of Activities
+freqSat <- table(saturday$Activity, exclude=NULL)
+freqSat
+dim(freqSat)
+
+#proportion of Activities
+propSat <- prop.table(freqSat)*100
+propSat <- round(propSat, digits=2)
+propSat
+
+dim(propSat)
+
+#creating table with binding
+tableSat <- cbind(freqSat, propSat)
+tableSat <- cbind(Gender = rownames(tableSat), tableSat)
+rownames(tableSat) <- NULL
+tableSat
+
+#rename column names
+colnames(tableSat)[colnames(tableSat) == "freqSat"] <- "Frequency"
+colnames(tableSat)[colnames(tableSat) == "propSat"] <- "Proportion (%)"
+tableSat
+
+#using kable extra to create better table format
+tableSaturday <- kable(tableSat)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableSaturday
+
+#Sunday
+
+#frequency of Activities
+freqSun <- table(sunday$Activity, exclude=NULL)
+freqSun
+dim(freqSun)
+
+#proportion of Activities
+propSun <- prop.table(freqSun)*100
+propSun <- round(propSun, digits=2)
+propSun
+
+dim(propSun)
+
+#creating table with binding
+tableSun <- cbind(freqSun, propSun)
+tableSun <- cbind(Gender = rownames(tableSun), tableSun)
+rownames(tableSun) <- NULL
+tableSun
+
+#rename column names
+colnames(tableSun)[colnames(tableSun) == "freqSun"] <- "Frequency"
+colnames(tableSun)[colnames(tableSun) == "propSun"] <- "Proportion (%)"
+tableSun
+
+#using kable extra to create better table format
+tableSunday <- kable(tableSun)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableSunday
+```
