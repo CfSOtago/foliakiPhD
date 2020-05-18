@@ -1997,4 +1997,14 @@ head(longweekend)
 
 ```
 
+```{r sortByID}
+# sorting my dataframe in accending order based on the Household ID
+weekendOrder <- order(longweekend$`Household ID`)
+head(weekendOrder)
 
+# Applying the sorting order into my "longweekends" dataframe and call it sortweekends
+sortweekend <- longweekend[weekendOrder,]
+head(sortweekend)
+
+names(sortweekend)
+```
