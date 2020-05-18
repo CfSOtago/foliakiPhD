@@ -26,7 +26,7 @@ library(ggplot2)
 
 # parameters ----
 dPath <- "/Volumes/hum-csafe/Research Projects/FoliakiPhD/tudData/" # edit for your set up
-dataF <- path.expand(paste0(dPath, "TUD Weekdays.csv"))
+dataF <- path.expand(paste0(dPath, "TUD Weekdays 050520.csv"))
   
 ```
 
@@ -1963,5 +1963,7 @@ Ben, so far with the graphs not convinced its good enough, how can i use "propor
 
 
 
-
 # Conclusions
+
+
+
