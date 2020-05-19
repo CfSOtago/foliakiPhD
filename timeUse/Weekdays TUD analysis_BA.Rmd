@@ -12,6 +12,8 @@ output:
     toc_float: TRUE
 ---
 
+# Weekdays
+## Importing Weekdays data
 ```{r setup}
 # packages ----
 library(plyr)
@@ -30,7 +32,7 @@ dataF <- path.expand(paste0(dPath, "TUD Weekdays 050520.csv"))
   
 ```
 
-# Time Use Diary
+## Read dataframe
 
 
 Importing Weekends dataframe
@@ -48,7 +50,7 @@ head(weekdays)
 
 ```
 
-
+## Create long dataframe
 Converting the wide dataframe to long dataframe for easier analysis
 
 Ive noticed that the time is in a character format rather than date. i need to change it to date
@@ -64,6 +66,7 @@ head(longweekdays)
 
 ```
 
+## Sort by ID
 Sorting the TUD dataframe, Firstly, as you can see previously some respondents do not have a secondary activity (i.e NA). Secondly, the data is sorted by time. I think it would be easier to sorted by Household ID. So here i am sorting the data based on ID number
 
 ```{r sortByID}
@@ -79,6 +82,7 @@ names(sortweekdays)
 ```
 
 
+## Rearrange by Activity
 Here i am seprating the activity columm into a primary activity and a secondary activity
 
 The issue im facing with is the date. It in character and alsoit picked up the current date (2020) rather than the date from the TUD.
@@ -112,6 +116,7 @@ kableExtra::kable(head(newdata), caption = "Test merged long form data") %>%
 
 ```
 
+## Fix Time
 > BA: fix the time variable so it looks like and acts like HH:MM
 
 ```{r fixTime}
@@ -137,7 +142,7 @@ kableExtra::kable(t, caption = "Test time coding") %>%
   kable_styling()
 ```
 
-# Weekdays TUD
+## Create dataframe per weekdays
 
 Here i am trying to seprate the data into days so i can analyse the activities.
 
@@ -169,7 +174,7 @@ head(friday)
 ```
 
 
-# Frequency of Activity per weekday
+## Frequence (n) and Proportion (%)
 
 So im trying to sort out the coding for Monday so i can copy it for the rest of the weekdays. I've did a frequency and proportion of activities for Monday.
 
@@ -362,7 +367,7 @@ tableWeekdays
 
 
 
-## Weekdays Activities TUD
+## Weekdays group by acitivities
 Im trying to see the count for all the activities in the TUD
 
 ```{r mondayGroupActs}
@@ -429,7 +434,7 @@ ggplot2::ggplot(tableAll, aes(x = fixedHMS, y = n)) +
   geom_col()
 ```
 
-## Cooking
+## Cooking related activity
 
 Here im am trying to look at anything related to preparing and eating a meal. 
 
@@ -660,7 +665,7 @@ WkdCook
 ```
 
 
-## Weekdays Tidy up
+## Tidy up related activities
 
 similar to the above but for tidy up/cleaning up
 ```{r mondayTidyUp}
@@ -903,7 +908,8 @@ WeekdaysTidy
 ```
 
 
-## Weekday Leisure
+## Leisure related acitivities
+
   similar to the above but for leisure
 ```{r momdayLeisure}
 # creating dataframe for all leisure
@@ -1167,7 +1173,7 @@ Weekdayleisure <- ggplot(weekdaysleisure, aes(x = fixedHMS, y = n)) + geom_bar(s
 Weekdayleisure
 ```
 
-## Weekdays Away from home
+## Away from home
 similar to the above but for away from home
 ```{r mondayAway}
 # creating dataframe for Away from Home
@@ -1401,7 +1407,7 @@ WeekdaysAwayHome <- ggplot(weekdayAway, aes(x = fixedHMS, y = n)) + geom_bar(sta
 WeekdaysAwayHome
 ```
 
-## Monday Transport
+## Travelling
 similar to the above but for transportation
 
 > BA: table breaks for some reason?
@@ -1693,7 +1699,7 @@ WeekdaysTransport
 
 ```
 
-## Monday Multiple plots
+## Plotting acitivities for each weekdays
 
 I wanted to put all the graphs in one page
 
@@ -1814,7 +1820,7 @@ ggplot2::ggplot(plotDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
   scale_fill_discrete(name="Activity (filtered)")
 ```
 
-# All weekdays plotted using facets
+## All weekdays plotted using facets/plot
 
 Figure \@ref(fig:allWeekdays) shows counts for all days. We can see a few days are unknown. Also we have higher counts on Mondays.
 
@@ -1944,6 +1950,8 @@ kableExtra::kable(t, caption = "Number of unique respondents by day (all acts)")
   kable_styling()
 ```
 
+## Number of villages
+
 There are a lot of Mondays in this data...
 
 How many are there per village?
@@ -1966,7 +1974,8 @@ Ben, so far with the graphs not convinced its good enough, how can i use "propor
 # Conclusions
 
 
-#Weekend
+# Weekend Data
+## Importing weekend data
 
 ```{r setup}
 
@@ -1976,6 +1985,7 @@ datag <- path.expand(paste0(gPath, "TUD Weekend 050520.csv"))
   
 ```
 
+## Dataframe
 
 ```{r loadData}
 
@@ -1987,7 +1997,7 @@ head(weekend)
 
 ```
 
-
+## Create long dataframe
 ```{r makeLong}
 
 longweekend <- weekend %>%
@@ -1997,6 +2007,7 @@ head(longweekend)
 
 ```
 
+## Sort by ID
 ```{r sortByID}
 # sorting my dataframe in accending order based on the Household ID
 weekendOrder <- order(longweekend$`Household ID`)
@@ -2009,6 +2020,7 @@ head(sortweekend)
 names(sortweekend)
 ```
 
+## Rearrange Activity
 ```{r rearrangeActs}
 # Since both the first and second activiies are in one column, i need to separate them into two columns
 
@@ -2032,7 +2044,7 @@ kableExtra::kable(head(weekenddata), caption = "Test merged long form data") %>%
 
 ```
 
-
+## Fix Time
 ```{r fixTime}
 
 weekenddata$rawTime <- as.POSIXct(weekenddata$Time, format="%l:%M %p")
@@ -2044,6 +2056,7 @@ kableExtra::kable(weekendt, caption = "Test time coding") %>%
   kable_styling()
 ```
 
+## Create dataframe per weekendays
 ```{r createWeekendDataFrames}
 
 #filter weekend dataframe by date using the dplyr
@@ -2059,6 +2072,8 @@ head(sunday)
 
 ```
 
+
+## Frequency (n) and Proportion (%)
 ```{r testWeekendFrequencyProportion}
 
 #Saturday 
@@ -2158,6 +2173,7 @@ tableWeekend
 ```
 
 
+## Weekend days by Activity
 ```{r weekendGroupActs}
 #Saturday
 groupbysatAct <- saturday %>%
@@ -2180,6 +2196,7 @@ groupbyweekendAct
 ```
 
 
+## Activity trend (exclude sleeping)
 ```{r WeekendNoSleepFilter}
 
 #Satruday
@@ -2238,6 +2255,7 @@ ggplot2::ggplot(tableWkendnosleep, aes(x = fixedHMS, y = n)) +
 
 ```
 
+## Cooking related acitivity
 ```{r WeekendCook}
 # creating dataframe for all cooking
 #Saturday
@@ -2352,7 +2370,7 @@ WeekendCook <- ggplot(tableCookingWeekend, aes(x = fixedHMS, y = n)) + geom_bar(
 WeekendCook
 ```
 
-
+## Tidy up related activity
 ```{r WeekendTidyUp}
 # creating dataframe for all cleaning up
 
@@ -2476,6 +2494,8 @@ WeekendTidy
 
 ```
 
+
+## Leisure related activity
 ```{r weekendLeisure}
 # creating dataframe for all leisure
 
@@ -2610,6 +2630,8 @@ Weekendleisure
 
 ```
 
+
+## Away from home 
 ```{r weekendAway}
 # creating dataframe for Away from Home
 
@@ -2729,7 +2751,7 @@ WeekendAwayHome
 
 ```
 
-
+## Travelling
 ```{r WeekendTransport}
 # creating dataframe for transportation
 
@@ -2876,7 +2898,7 @@ WeekendTravelling
 ```
 
 
-
+## Plotting Activity by weekend day
 ```{r onePlot}
 # I would use data.table for this, not because it is the best way but because I know how to use it!
 
@@ -3196,6 +3218,7 @@ ggplot2::ggplot(plotsweekendDT, aes(x = fixedHMS, y = count, fill = ba_act)) +
 ```
 
 
+## Plotting all graphs in one Plot
 ```{r allWeekends, fig.cap="All days"}
 # use the all days table and the same coding method but across all days
 
@@ -3323,7 +3346,62 @@ kableExtra::kable(weekendt, caption = "Number of unique respondents by day (all 
   kable_styling()
 ```
 
+# Socio-demographic
+
+## Importing SD data
+
+```{r setup}
+
+# parameters ----
+sdPath <- "/Volumes/hum-csafe/Research Projects/FoliakiPhD/tudData/" # edit for your set up
+datasd <- path.expand(paste0(sdPath, "Social demographics 050520.csv"))
+  
+```
+
+## Dataframe
+
+```{r loadData}
+
+# read in my dataframe
+socialdemo <- read.csv(datasd, na.strings=c(""), check.names = FALSE, header = TRUE, as.is=TRUE)
+
+head(socialdemo)
 
 
+```
+
+## Gender
+what is the distribution of gender in my data?
+```{r frequency}
+
+#frequency of Activities
+freqgen <- table(socialdemo$Gender, exclude=NULL)
+freqgen
+dim(freqgen)
+
+#proportion of Activities
+propgen <- prop.table(freqgen)*100
+propgen <- round(propgen, digits=2)
+propgen
+
+dim(propgen)
+
+#creating table with binding
+tableGen <- cbind(freqgen, propgen)
+tableGen <- cbind(Gender = rownames(tableGen), tableGen)
+rownames(tableGen) <- NULL
+tableGen
+
+#rename column names
+colnames(tableGen)[colnames(tableGen) == "freqgen"] <- "Frequency"
+colnames(tableGen)[colnames(tableGen) == "propgen"] <- "Proportion (%)"
+tableGen
+
+#using kable extra to create better table format
+tableGender <- kable(tableGen)%>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+tableGender
+````
 
 
