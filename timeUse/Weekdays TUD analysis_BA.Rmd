@@ -3374,34 +3374,177 @@ head(socialdemo)
 what is the distribution of gender in my data?
 ```{r frequency}
 
-#frequency of Activities
-freqgen <- table(socialdemo$Gender, exclude=NULL)
-freqgen
-dim(freqgen)
+groupbygen <- socialdemo %>%
+  dplyr::group_by(Gender) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+groupbygen
 
-#proportion of Activities
-propgen <- prop.table(freqgen)*100
-propgen <- round(propgen, digits=2)
-propgen
+# plot
+ggplot2::ggplot(groupbygen, aes(x = Gender, y = freq)) +
+  geom_col() 
 
-dim(propgen)
-
-#creating table with binding
-tableGen <- cbind(freqgen, propgen)
-tableGen <- cbind(Gender = rownames(tableGen), tableGen)
-rownames(tableGen) <- NULL
-tableGen
-
-#rename column names
-colnames(tableGen)[colnames(tableGen) == "freqgen"] <- "Frequency"
-colnames(tableGen)[colnames(tableGen) == "propgen"] <- "Proportion (%)"
-tableGen
-
-#using kable extra to create better table format
-tableGender <- kable(tableGen)%>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
-
-tableGender
 ````
 
+
+## Age
+what is the age distribution?
+```{r frequency}
+
+groupbyage <- socialdemo %>%
+  dplyr::group_by(Age) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+groupbyage
+
+# plot
+ggplot2::ggplot(groupbyage, aes(x = Age, y = freq)) +
+  geom_col() 
+
+````
+
+## Education
+What is the education distribution?
+
+```{r frequency}
+
+groupbyedu <- socialdemo %>%
+  dplyr::group_by(Education) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+groupbyedu
+
+# plot
+ggplot2::ggplot(groupbyedu, aes(x = Education, y = freq)) +
+  geom_col() 
+````
+
+## Religion
+What is the education distribution?
+
+```{r frequency}
+
+groupbyrel <- socialdemo %>%
+  dplyr::group_by(Religion) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+groupbyrel
+
+# plot
+ggplot2::ggplot(groupbyrel, aes(x = Religion, y = freq)) +
+  geom_col() 
+
+````
+
+
+## Martial Status
+What is the martial status distribution?
+
+```{r frequency}
+
+groupbymar <- socialdemo %>%
+  dplyr::group_by(Martial_Status) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+
+groupbymar
+
+# plot
+ggplot2::ggplot(groupbymar, aes(x = Martial_Status, y = freq)) +
+  geom_col() 
+````
+
+
+## Employment
+What is the Employment distribution?
+
+```{r frequency}
+
+groupbyjob <- socialdemo %>%
+  dplyr::group_by(Employment_Classification) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+
+groupbyjob
+
+# plot
+ggplot2::ggplot(groupbyjob, aes(x = Employment_Classification, y = freq)) +
+  geom_col() 
+
+````
+
+
+## Household members
+What is the household members distribution?
+
+```{r frequency}
+
+groupbyhmem <- socialdemo %>%
+  dplyr::group_by(Household_members) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+
+groupbyhmem
+
+# plot
+ggplot2::ggplot(groupbyhmem, aes(x = Household_members, y = freq)) +
+  geom_col() 
+
+````
+
+
+## Income Earners
+What is the income earners distribution?
+
+```{r frequency}
+
+groupbyinc <- socialdemo %>%
+  dplyr::group_by(Income_earners) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+
+groupbyinc
+
+# plot
+ggplot2::ggplot(groupbyinc, aes(x = Income_earners, y = freq)) +
+  geom_col() 
+
+
+````
+
+## Fortnight Income
+What is the Fortnight distribution?
+
+```{r frequency}
+
+groupbyfort <- socialdemo %>%
+  dplyr::group_by(Fortnight_income) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+
+groupbyfort
+
+# plot
+ggplot2::ggplot(groupbyfort, aes(x = Fortnight_income, y = freq)) +
+  geom_col() 
+
+
+````
+
+## Village 
+What is the village distribution?
+
+```{r frequency}
+
+groupbyvil <- socialdemo %>%
+  dplyr::group_by(Village) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(freq = n / sum(n)*100)
+
+groupbyvil
+
+# plot
+ggplot2::ggplot(groupbyvil, aes(x = Village, y = freq)) +
+  geom_col() 
+````
 
