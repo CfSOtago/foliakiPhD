@@ -440,16 +440,18 @@ Here im am trying to look at anything related to preparing and eating a meal.
 
 ```{r mondayCook}
 # creating dataframe for all cooking
-#Monday
+
+# Monday (Count)
 tableCooking <- monday %>%
   select(fixedHMS, Activity) %>% 
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", 
+  filter(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -461,12 +463,14 @@ tableCooking <- monday %>%
   
 tableCooking
 
+#Plot
 MonCook <- ggplot(tableCooking, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
   ggtitle("Monday Cooking") +
   xlab("Time ") +
   ylab("n") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
         axis.title.x = element_text(color="black", size=10, face="bold"),
         axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
         panel.background=element_rect(fill = "white"),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(), 
@@ -476,17 +480,87 @@ MonCook <- ggplot(tableCooking, aes(x = fixedHMS, y = n)) + geom_bar(stat = "ide
 
 MonCook
 
-#Tuesday
+# Monday (%)
 
+MonCookprop <- monday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (dinner)",
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)", 
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(fixedHMS) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+MonCookprop
+
+#Plot
+
+MonCookpropPlot <- ggplot(MonCookprop, aes(x = fixedHMS, y = Percentage)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
+  ggtitle("Monday Cooking") +
+  xlab("Time ") +
+  ylab("Percentage") + 
+  theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p"))
+)
+
+MonCookpropPlot
+
+
+# Monday report cooking
+MonCookingreport <- monday %>%
+  select('Household ID', Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(Activity) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+MonCookingreport
+
+
+
+```
+
+```{r }
+#Tuesday
 tableCookingTue <- tuesday %>%
   select(fixedHMS, Activity) %>% 
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", 
+  filter(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -498,6 +572,7 @@ tableCookingTue <- tuesday %>%
   
 tableCookingTue
 
+# plot 
 TueCook <- ggplot(tableCookingTue, aes(x = fixedHMS, y = n)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue") +
   ggtitle("Tuesday Cooking") +
   xlab("Time ") +
@@ -513,6 +588,70 @@ TueCook <- ggplot(tableCookingTue, aes(x = fixedHMS, y = n)) + geom_bar(stat = "
 
 TueCook
 
+#Tuesday (%)
+
+TueCookingprop <- tuesday %>%
+  select(fixedHMS, Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(fixedHMS) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+TueCookingprop
+
+#plot 
+TueCookpropPlot <- ggplot(TueCookingprop, aes(x = fixedHMS, y = Percentage)) + geom_bar(stat = "identity", position = "stack", color="blue", fill="blue", alpha=0.5) +
+  ggtitle("Tuesday Cooking") +
+  xlab("Time") +
+  ylab("Percentage") + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1) + 
+        scale_x_date(labels = date_format("%I:%M %p")) +
+        theme(axis.text.x = element_text(angle = 90, vjust=0.5, size = 8))
+  )
+        
+TueCookpropPlot
+
+#Tuesday report cooking
+TueCookingreport <- tuesday %>%
+  select('Household ID', Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(Activity) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+TueCookingreport
+```
+
+```{r }
 #Wednesday
 
 tableCookingWed <- wednesday %>%
@@ -520,10 +659,11 @@ tableCookingWed <- wednesday %>%
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", 
+  filter(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -550,6 +690,30 @@ WedCook <- ggplot(tableCookingWed, aes(x = fixedHMS, y = n)) + geom_bar(stat = "
 
 WedCook
 
+# Wednesday report cooking
+WedCookingreport <- wednesday %>%
+  select('Household ID', Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(Activity) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+WedCookingreport
+```
+
+```{r}
 #Thursday
 
 tableCookingThu <- thursday %>%
@@ -557,10 +721,11 @@ tableCookingThu <- thursday %>%
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", 
+  filter(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -587,7 +752,33 @@ ThuCook <- ggplot(tableCookingThu, aes(x = fixedHMS, y = n)) + geom_bar(stat = "
 
 ThuCook
 
-#Friday
+# Thursday report cooking
+ThuCookingreport <- thursday %>%
+  select('Household ID', Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(Activity) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+ThuCookingreport
+
+```
+
+
+```{r}
+  #Friday
 
 
 tableCookingFri <- friday %>%
@@ -595,10 +786,11 @@ tableCookingFri <- friday %>%
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", 
+  filter(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -625,6 +817,32 @@ FriCook <- ggplot(tableCookingFri, aes(x = fixedHMS, y = n)) + geom_bar(stat = "
 
 FriCook
 
+# Friday report cooking
+FriCookingreport <- friday %>%
+  select('Household ID', Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(Activity) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+FriCookingreport
+```
+
+
+```{r}
+
 #Weekdays
 
 tableCookingWkd <- newdata %>%
@@ -632,10 +850,11 @@ tableCookingWkd <- newdata %>%
   filter(Activity != "Sleeping") %>%
   filter(Activity != "Rest") %>%
   filter(Activity != "Work") %>%
-  filter(Activity %in% c("Cooking", 
+  filter(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -661,6 +880,28 @@ WkdCook <- ggplot(tableCookingWkd, aes(x = fixedHMS, y = n)) + geom_bar(stat = "
 )
 
 WkdCook
+
+# Weekdays report cooking
+WkdCookingreport <- newdata %>%
+  select('Household ID', Activity) %>% 
+  filter(Activity != "Sleeping") %>%
+  filter(Activity != "Rest") %>%
+  filter(Activity != "Work") %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")) %>%
+  group_by(Activity) %>%
+  summarize(n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+WkdCookingreport
 
 ```
 
@@ -1719,10 +1960,11 @@ library(gridBase)
 # I would use data.table for this, not because it is the best way but because I know how to use it!
 library(data.table)
 mondayDT <- data.table::as.data.table(monday)
-mondayDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+mondayDT[, ba_act := ifelse(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -1834,10 +2076,11 @@ allDaysDT[, dayF := factor(Day,
                         )
        ]
 
-allDaysDT[, ba_act := ifelse(Activity %in% c("Cooking", 
+allDaysDT[, ba_act := ifelse(Activity %in% c("Cooking (breakfast)", 
                          "Cooking (business)", 
                          "Cooking (baby)",
-                         "Cooking (lunch)", 
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
                          "Food prep (business)", 
                          "Lunch", 
                          "Breakfast", 
@@ -3373,16 +3616,22 @@ head(socialdemo)
 ## Gender
 what is the distribution of gender in my data?
 ```{r frequency}
-
 groupbygen <- socialdemo %>%
   dplyr::group_by(Gender) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 groupbygen
 
 # plot
-ggplot2::ggplot(groupbygen, aes(x = Gender, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbygen, aes(x = Gender, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
 
 ````
 
@@ -3394,12 +3643,19 @@ what is the age distribution?
 groupbyage <- socialdemo %>%
   dplyr::group_by(Age) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 groupbyage
 
 # plot
-ggplot2::ggplot(groupbyage, aes(x = Age, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbyage, aes(x = Age, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
 
 ````
 
@@ -3411,12 +3667,19 @@ What is the education distribution?
 groupbyedu <- socialdemo %>%
   dplyr::group_by(Education) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 groupbyedu
 
 # plot
-ggplot2::ggplot(groupbyedu, aes(x = Education, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbyedu, aes(x = Education, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
 ````
 
 ## Religion
@@ -3427,12 +3690,19 @@ What is the education distribution?
 groupbyrel <- socialdemo %>%
   dplyr::group_by(Religion) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 groupbyrel
 
 # plot
-ggplot2::ggplot(groupbyrel, aes(x = Religion, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbyrel, aes(x = Religion, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
 
 ````
 
@@ -3445,12 +3715,12 @@ What is the martial status distribution?
 groupbymar <- socialdemo %>%
   dplyr::group_by(Martial_Status) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 
 groupbymar
 
 # plot
-ggplot2::ggplot(groupbymar, aes(x = Martial_Status, y = freq)) +
+ggplot2::ggplot(groupbymar, aes(x = Martial_Status, y = Percentage)) +
   geom_col() 
 ````
 
@@ -3463,13 +3733,20 @@ What is the Employment distribution?
 groupbyjob <- socialdemo %>%
   dplyr::group_by(Employment_Classification) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 
 groupbyjob
 
 # plot
-ggplot2::ggplot(groupbyjob, aes(x = Employment_Classification, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbyjob, aes(x = Employment_Classification, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
 
 ````
 
@@ -3482,12 +3759,12 @@ What is the household members distribution?
 groupbyhmem <- socialdemo %>%
   dplyr::group_by(Household_members) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 
 groupbyhmem
 
 # plot
-ggplot2::ggplot(groupbyhmem, aes(x = Household_members, y = freq)) +
+ggplot2::ggplot(groupbyhmem, aes(x = Household_members, y = Percentage)) +
   geom_col() 
 
 ````
@@ -3501,12 +3778,12 @@ What is the income earners distribution?
 groupbyinc <- socialdemo %>%
   dplyr::group_by(Income_earners) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 
 groupbyinc
 
 # plot
-ggplot2::ggplot(groupbyinc, aes(x = Income_earners, y = freq)) +
+ggplot2::ggplot(groupbyinc, aes(x = Income_earners, y = Percentage)) +
   geom_col() 
 
 
@@ -3520,13 +3797,20 @@ What is the Fortnight distribution?
 groupbyfort <- socialdemo %>%
   dplyr::group_by(Fortnight_income) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 
 groupbyfort
 
 # plot
-ggplot2::ggplot(groupbyfort, aes(x = Fortnight_income, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbyfort, aes(x = Fortnight_income, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
 
 
 ````
@@ -3539,12 +3823,140 @@ What is the village distribution?
 groupbyvil <- socialdemo %>%
   dplyr::group_by(Village) %>%
   dplyr::summarize(n = n()) %>%
-  dplyr::mutate(freq = n / sum(n)*100)
+  dplyr::mutate(Percentage = n / sum(n)*100)
 
 groupbyvil
 
 # plot
-ggplot2::ggplot(groupbyvil, aes(x = Village, y = freq)) +
-  geom_col() 
+ggplot2::ggplot(groupbyvil, aes(x = Village, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
+````
+
+
+#add socio-demographic 
+## Test
+
+```{r test}
+
+#Weekdays
+
+a <- monday %>%
+  filter(Activity %in% c("Cooking (breakfast)", 
+                         "Cooking (business)", 
+                         "Cooking (baby)",
+                         "Cooking (lunch)",
+                         "Cooking (dinner)",
+                         "Food prep (business)", 
+                         "Lunch", 
+                         "Breakfast", 
+                         "Dinner", 
+                         "Light meal/snack")
+         )
+a
+
+
+b <- socialdemo
+b
+
+#filter Household that report cooking
+c <- filter(b,`Household ID` %in% c(2,8,10,17,19,20,23,24,25,37,41,47,56,60,61,63,64,66,68,71,72,76,77,85,87,89,94,95,98,99))
+c
+
+c1 <- filter(b,!`Household ID` %in% c(2,8,10,17,19,20,23,24,25,37,41,47,56,60,61,63,64,66,68,71,72,76,77,85,87,89,94,95,98,99))
+c1
+
+d <- c %>% select(Gender, Martial_Status)
+d
+
+d1 <- c1 %>% select(Gender, Martial_Status)
+d1
+
+#filter Household by gender
+
+##cookgender
+cookbygen <- d %>%
+  dplyr::group_by(Gender) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(Percentage = n / sum(n)*100)
+cookbygen
+
+plotcookbygen <- ggplot2::ggplot(cookbygen, aes(x = Gender, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
+
+plotcookbygen 
+
+noncookbygen <- d1 %>%
+  dplyr::group_by(Gender) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(Percentage = n / sum(n)*100)
+noncookbygen
+
+##female cooking
+cookfemale <- d %>%
+  filter(Gender == "Female")%>%
+  dplyr::group_by(Martial_Status) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(Percentage = n / sum(n)*100)
+
+plotcookbyfem <- ggplot2::ggplot(cookfemale, aes(x = Martial_Status, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
+
+plotcookbyfem
+
+noncookfemale <- d1 %>%
+  filter(Gender == "Female")%>%
+  dplyr::group_by(Martial_Status) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(Percentage = n / sum(n)*100)
+##male
+cookmale <- d %>%
+  filter(Gender == "Male")%>%
+  dplyr::group_by(Martial_Status) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(Percentage = n / sum(n)*100)
+
+plotcookbymale <- ggplot2::ggplot(cookmale, aes(x = Martial_Status, y = Percentage)) +
+  geom_col() + theme(plot.title = element_text(color="Black", size=11, face="bold.italic", hjust=0.5,lineheight=0.8),
+        axis.title.x = element_text(color="black", size=10, face="bold"),
+        axis.title.y = element_text(color="black", size=10, face="bold"),
+        axis.text.x = element_text(angle = 90, vjust=0.5, size = 8), #turn scale 90 degree
+        panel.background=element_rect(fill = "white"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black", size = 1))
+
+plotcookbymale
+
+noncookmale <- d1 %>%
+  filter(Gender == "Male")%>%
+  dplyr::group_by(Martial_Status) %>%
+  dplyr::summarize(n = n()) %>%
+  dplyr::mutate(Percentage = n / sum(n)*100)
+
+# plot
+
+
+
 ````
 
